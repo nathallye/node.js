@@ -1,0 +1,2 @@
+const ola = () => console.log("Olá Node.js!!");
+setInterval(ola, 1000); // esse método vai chamar a função informada no intervalo de tempo informada, nesse caso em 1000 milisegundos ou seja, de um em 1 em 1 segundo
