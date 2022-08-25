@@ -121,5 +121,61 @@ s2.showNext();
 - Podemos notar que `s1` e `s2` não são duas instâncias diferentes e sim apontam para a mesma instância do módulo requirido, portanto, toda vez que a função `showNext` é chamada seja sem `s1` ou `s2` os valores acessados os mesmos, ou seja, se fossem duas instânias diferentes o retorno seria `1 2 1 2`.
 
 ## Objeto Global
+ 
+- Quando trabalhamos com o JS no lado do front-end temos um objeto que exerce um papel importante que é o objeto Window, que é justamente o objeto global, existe até uma boa prática que é fugir desse escopo global, evitando declarar variáveis e funções diretamente no Window, ou seja, no Escopo Global.
+O Node também tem esse escopo global, mas devemos usá-lo de uma forma bem pensada, para evitarmos cair em erros e bugs.
 
+- Para entendermos melhor o Escopo Global do Node vamos criar um novo arquivo chamado `ex04_global.js` e dentro dele iremos criar uma constante chamada `PI` que irá receber o valor 3.14, em seguida vamos exibir um console de `global.PI`:
 
+``` JS
+const PI = 3.14;
+
+console.log(global.PI);
+```
+
+- Em seguida, vamos executar o módulo/arquivo `ex04_global.js` no node e podemos notar que o retorno é `undefined`, isso ocorre porque quando declaramos uma `const` dentro de um módulo ela não vai ficar armazenada dentro do escopo global do node, o sistema de módulos do node garante que tudo que escrevemos dentro de um arquivo, ou seja, dentro de módulo é visível apenas dentro desse módulo e ele não é exposto diretamente no escopo global, evitando erros e bugs causados pelo uso do escopo global.
+
+## This
+
+- Em JS o nem sempre o conceito do this, quem representa o this em determinado momento é tão claro, porque existe um this que é mais associado ao lugar onde foi definido dentro do código, por exemplo, o this que é implementado dentro da função arrow, só que o this em uma função tradicional do JS é sensível a forma como essa função é chamada, ou seja, nem sempre o this representada a mesma coisa se chamarmos a função de formas diferentes.
+
+- Mas dentro de um módulo do node o this aponta para quem? E para entendermos esse assunto vamos criar um novo módulo chamado `ex05_module.js` e dentro desse módulo vamos criar algumas comparações para visualizarmos para qual objeto o `this` aponta em um módulo node:
+
+``` JS
+const { global } = require("styled-jsx/css");
+
+console.log(this === global); // this é igual a global?, ou seja, this aponta para global?
+// retorno =>
+// false
+console.log(this === module); // this é igual a module?, ou seja, this aponta para module?
+// retorno =>
+// false
+console.log(this === module.exports); // this é igual a module.exports?, ou seja, this aponta para module.exports?
+// retorno =>
+// true
+```
+
+- Podemos notar que o `this` dentro de um módulo node aponta para o objeto `module.exports`, que é justamente o objeto que será exposto para os outros módulos, inicialmente ele é um objeto vazio e apartir do momentos que atribuimos um novo objeto para o `module.exports`(module.exports = {}) esse objeto é exportado para quem requerer(fizer o require) o módulo em questão.
+
+- Portanto, podemos inserir uma funcionalidade diretamente no `this` e ela será exportada para fora do módulo, substituindo a atribução dessa funcionalidade dentro de um objeto o qual `module.exports` recebe.
+Para entendermos melhor como isso acontece, vamos atribuir a `this.talkHello` uma função a qual irá exibir um console:
+
+``` JS
+const { global } = require("styled-jsx/css");
+
+console.log(this === global); 
+console.log(this === module); 
+console.log(this === module.exports);
+
+this.talkHello = function() { // this substitui module.exports
+  console.log("Hello!!!!!")
+}
+```
+
+- Em seguida, vamos criar um novo arquivo chamado `ex05_test.js` e nele iremos fazer a importação do módulo `ex05_module.js` através do `require` e armazenando em uma variável chamada `m`; feito isso, podemos chamar a função `talkHello` criada dentro do módulo `ex05_module.js`:
+
+``` JS
+const m = require("./ex05_module");
+
+m.talkHello();
+```
