@@ -133,7 +133,7 @@ const PI = 3.14;
 console.log(global.PI);
 ```
 
-- Em seguida, vamos executar o módulo/arquivo `ex04_global.js` no node e podemos notar que o retorno é `undefined`, isso ocorre porque quando declaramos uma `const` dentro de um módulo ela não vai ficar armazenada dentro do escopo global do node, o sistema de módulos do node garante que tudo que escrevemos dentro de um arquivo, ou seja, dentro de módulo é visível apenas dentro desse módulo e ele não é exposto diretamente no escopo global, evitando erros e bugs causados pelo uso do escopo global.
+- Em seguida, vamos executar o módulo/arquivo `ex04_global.js` no node e podemos notar que o retorno é `undefined`, isso ocorre porque quando declaramos uma `const` dentro de um módulo ela não vai ficar armazenada dentro do escopo global do node, o sistema de módulos do node garante que tudo que escrevemos dentro de um arquivo, ou seja, dentro de módulo é visível apenas dentro desse módulo e ele não é exposto diretamente no ecscopo global, evitando erros e bugs causados pelo uso do escopo global.
 
 ## This
 
@@ -179,3 +179,93 @@ const m = require("./ex05_module");
 
 m.talkHello();
 ```
+
+## Módulo Externo(Lodash)
+
+- Biblioteca JS que funcionada no browser mas conseguimos usá-la normalmente no node também.
+Para entendermos melhor sobre essa biblioteca vamos criar um arquivo chamado `ex06_lodash.js`. E diferente quando fazemos uma importação de um módulo da própria aplicação que precisamos colocar o caminho relativo, para importar um módulo externo simplesmente colocamos o nome do arquivo do node sem se preocupar com o caminho relativo:
+
+``` JS
+const _ = require("lodash");
+```
+
+- Apesar de termos requirido o `lodash`, não temos acesso a ele por padrão ele não é um modulo do core do node, portanto, precisamos instalar esse módulo. No terminal vamos rodar o comando seguinte:
+
+```
+npm install lodash
+
+or
+
+npm i lodash
+```
+
+**npm:** Gerenciador de módulos do node.
+
+- Fazendo isso temos o `lodash` disponível para ser usada na nossa aplicação.
+E para isso, dentro de `ex06_lodash.js` vamos criar um array de objetos de alunos:
+
+``` JS
+const _ = require("lodash");
+
+const students = [
+  {
+    name: "João",
+    score: 7.6
+  },
+  {
+    name: "Maria",
+    score: 8.6
+  },
+  {
+    name: "Pedro",
+    score: 8.1
+  }
+]
+```
+
+- Agora, vamos supor que precisamos percorrer esses objetos, extraindo a nota de cada um deles e somar essas notas e calcular a média. Para isso, vamos usar o `lodash` para fazer esse trabalho:
+
+``` JS
+const _ = require("lodash");
+
+const students = [
+  {
+    name: "João",
+    score: 7.6
+  },
+  {
+    name: "Maria",
+    score: 8.6
+  },
+  {
+    name: "Pedro",
+    score: 8.1
+  }
+]
+
+const average = _.sumBy(students, "score") / students.length; // o método sumBy recebe o array e o atributo que queremos "pegar" e pegando o atributo nota/score ele vai somar todas as notas e por fim dividir pelo tamanho do array de alunos/students;
+
+console.log(average); // vamos exibir no console o valor da média das notas armazenado na const average
+```
+
+- Pulamos a etapa de criar o arquivo descritor do node `package.json` que armazena a declaração das dependências do projeto que evita a instalação novamente de todas as dependências/módulos manualmente se por ventura trocarmos de máquina ou enviarmos esse projeto para outra pessoa, podendo serem instaladas através desse arquivo usando o comando `npm install`. E para criarmos esse arquivo vamos rodar o comando seguinte no terminal:
+
+```
+npm init -y
+```
+
+**Obs.:** 
+`-y` - É para responder todas as perguntas dessa inicialização de forma padrão.
+
+- Depois disso se dentro do arquivo `package.json` ainda não contenha a referência do `lodash`, podemos solucionar rodando o comando seguinte no terminal:
+
+```
+npm install lodash --save
+
+or
+
+npm i lodash --save
+```
+
+**Obs.:** 
+`--save` - Para salvar no arquivo `package.json`.
