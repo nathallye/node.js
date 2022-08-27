@@ -269,3 +269,29 @@ npm i lodash --save
 
 **Obs.:** 
 `--save` - Para salvar no arquivo `package.json`.
+
+## Passagem de Parâmetros
+
+- A partir dos exemplos que já construimos até aqui, vimos como a partir de um módulo conseguimos expor funcionalidades, dados, objetos, funções para um outro módulo via `module.exports` ou pelo próprio `this`;
+
+- No entanto, ainda não vimos como passar um dado/parâmetro para dentro de um módulo. Para entendermos como isso funciona vamos criar um arquivo chamado `ex07_param`, nesse arquivo vamos exportar diretamente uma função(anônima, sem nome) para o `module.exports` que recebe como parâmetro o `param` e essa função vai exibir um console com uma frase interpolada com o `param` informado:
+
+``` JS
+module.exports = function(param) { // module.exports deixa de ser um objeto vazio e se torna a função que está recebendo
+  console.log(`O param informado foi ${param}`);
+}
+```
+
+- Em seguida, iremos criar um nov arquivo chamado `ex07_test.js` e nele iremos fazer a importação do módulo `ex07_param.js` através do `require` e armazenando em uma variável chamada `moduleWithParam`:
+
+``` JS
+const moduleWithParam = require("./ex07_param");
+```
+
+- Feito isso, conseguimos chamar a função passando para `param` como atributo o `param1`:
+
+``` JS
+const moduleWithParam = require("./ex07_param");
+
+moduleWithParam("param1");
+```
