@@ -295,3 +295,63 @@ const moduleWithParam = require("./ex07_param");
 
 moduleWithParam("param1");
 ```
+
+## process.argv
+
+- A propriedade `process.argv` é uma interface de programação de aplicativo embutida do módulo de processo que é usada para obter os argumentos passados ​​para o processo node.js quando executado na linha de comando.
+
+- Para entendermos melhor como essa propriedade funciona vamos criar o arquivo `ex08_process.js` e nele iremos exibir um console de `process.argv`:
+
+``` JS
+console.log(process.argv);
+```
+
+- Em seguida, vamos chamar esse módulo para ser executado no node passando alguns parâmetros:
+
+``` JS
+node ex08_process.js test param
+```
+
+- No terminal, podemos notar que esta propriedade retorna uma array contendo os argumentos passados ​​ao processo ao executá-lo na linha de comando. O primeiro elemento é o caminho de execução do processo e o segundo elemento é o caminho para o arquivo js/módulo chamado:
+
+``` JS
+[
+  '/usr/local/bin/node',
+  '/home/nathallye/dev/cursos/nodejs/ex08_process.js',
+  'test',
+  'param'
+]
+```
+
+- Com isso, podemos fazer uma função para verificar se um parâmetro foi passado ou não na lista dos argumentos da chamada do módulo/arquivo js.
+O nome da função será `haveParam` e ela irá receber um parâmetro de entrada e dentro dela vamos retornar uma verificação(se dentro de `process.argv` o `indexOf`/index de `param` for diferente de `-1` significa que esse parâmetro existe dentro dos parâmetros passados para esse módulo) que irá retornar um valor booleano(tru ou false):
+
+``` JS
+function haveParam(param) {
+  return process.argv.indexOf(param) !== -1;
+}
+```
+
+- Em seguida, podemos usar o valor booleano retornado e exibir e fazer um retorno condicional:
+
+``` JS
+function haveParam(param) {
+  return process.argv.indexOf(param) !== -1;
+}
+
+if (haveParam("test")) { // se o param "test" foi passado, ou seja, o retorno da função foi true
+  console.log("Atenção total!")
+} else { // senão foi passado, ou seja, o retorno da função foi false
+  console.log("De boa!")
+}
+```
+
+- Agora, podemos visualizar as chamadas feitas a esse módulo com e sem parâmetros e os retornos:
+
+``` 
+node ex08_process.js test param
+> Atenção total!
+
+node ex08_process.js param
+> De boa!
+```
