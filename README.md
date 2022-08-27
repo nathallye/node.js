@@ -355,3 +355,15 @@ node ex08_process.js test param
 node ex08_process.js param
 > De boa!
 ```
+
+## process.stdout e process.stdin 
+
+- Com o `process` também conseguimos escrever/imprimir e capturar entradas/inputs do usuário no console:
+
+``` JS
+process.stdout.write("Está tudo bem? "); // escreve no console
+process.stdin.on("data", function(data) { // captura entrada do usuário no console, e quando o data for disparado é chamada uma função callback que recebe os dados recebidos e irá mostrar no console qual a entrada do usuário
+  process.stdout.write(`Sua resposta foi ${data.toString()}Obrigada!\n`) // escreve no console
+  process.exit(); // finaliza o programa 
+});
+```
