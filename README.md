@@ -370,7 +370,7 @@ process.stdin.on("data", function(data) { // captura entrada do usuário no cons
 
 ## Módulo FS
 
-- Um dos módulos que já vem por padrão no node(ou seja, podemos usá-lo sem precisarmos installar o pacote). Serve para acessarmos dados no arquivo, ler e modificar arquivos, listar pastas...
+- Um dos módulos que já vem por padrão no node(ou seja, podemos usá-lo sem precisarmos instalar o pacote). Serve para acessarmos dados no arquivo, ler e modificar arquivos, listar pastas...
 
 - Para entendermos melhor como esse módulo funciona vamos criar o arquivo `ex10_fs.js` e nele iremos importar o módulo `fs` o qual iremos acessar seus dados usando o `require` e essa importação iremos receber dentro da const `fs`:
 
@@ -419,4 +419,75 @@ ex10_fs.js
 node_modules
 package-lock.json
 package.json
+```
+
+## Módulo HTTP
+
+- Um dos módulos que já vem por padrão no node(ou seja, podemos usá-lo sem precisarmos instalar o pacote). Serve para quando usarmos o node como servidor HTTP para prover respostas para uma API REST(dificimente isso irá acontecer, pois exite o express que facilita esse processo)...
+
+- Para entendermos melhor como esse módulo funciona vamos criar o arquivo `ex11_http.js` e nele iremos importar o módulo `http` o qual iremos acessar seus dados usando o `require` e essa importação iremos receber dentro da const `http`:
+
+``` JS
+const http = require("http");
+```
+
+- Em seguida, iremos criar uma const chamada `server` que irá receber o método `http.createServer` e essa função recebe como parâmetro uma função callback(que recebe a requisição/`req` e a resposta/`res` como parâmetro) que vai ser chamada quando essa requisição acontecer:
+
+``` JS
+const http = require("http");
+
+const server = http.createServer(function(req, res) {
+
+});
+```
+
+- E quando essa função callback for chamada ela irá chamar o métod `writeHead` para escrever um cabeçalho nessa resposta/`res`:
+
+``` JS
+const http = require("http");
+
+const server = http.createServer(function(req, res) {
+  res.writeHead(200, {"Content-Type": "text/html"}); // retorna o status code 200 e p tipo de conteúdo é texto html
+});
+```
+
+- E para finalizar essa resposta e enviar para o browser, vamos chamar o método `end` para escrever um `h1` nessa resposta/`res`:
+
+``` JS
+const http = require("http");
+
+const server = http.createServer(function(req, res) {
+  res.writeHead(200, {"Content-Type": "text/html"});
+  res.end("<h1>Acho que pode ser melhor usar o Express...</h1>");
+});
+```
+
+- Para finalizar, vamos criar uma porta e armazenar na const `port` e vamos informar ao servidor/`server` ficar escutando/`listen` essa porta:
+
+``` JS
+const http = require("http");
+
+const server = http.createServer(function(req, res) {
+  res.writeHead(200, {"Content-Type": "text/html"});
+  res.end("<h1>Acho que pode ser melhor usar o Express...</h1>");
+});
+
+const port = 3450;
+server.listen(port);
+```
+
+- E para caso ele consiga realmente alorcar essa porta e ficar escutando ela vamos chamar uma função callback que irá exibir um console para identificarmos que deu tudo certo:
+
+``` JS
+const http = require("http");
+
+const server = http.createServer(function(req, res) {
+  res.writeHead(200, {"Content-Type": "text/html"});
+  res.end("<h1>Acho que pode ser melhor usar o Express...</h1>");
+});
+
+const port = 3450;
+server.listen(port, function() {
+  console.log(`Èscutando a ${port}`); 
+});
 ```
