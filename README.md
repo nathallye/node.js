@@ -268,7 +268,7 @@ npm i lodash --save
 ```
 
 **Obs.:** 
-`--save` - Para salvar no arquivo `package.json`.
+`--save` - Para salvar a referência dessa dependência no arquivo `package.json`.
 
 ## Passagem de Parâmetros
 
